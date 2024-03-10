@@ -19,7 +19,7 @@ model User {
 model Blog {
   id          Int    @id @default(autoincrement())
   title       String
-  description String
+  description String  @db.Text
   author      User   @relation(fields: [userId], references: [id])
   userId      Int
 }

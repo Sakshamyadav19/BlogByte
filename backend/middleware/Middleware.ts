@@ -13,8 +13,7 @@ if (!JWT_TOKEN) {
 export const middleware=(req:Request,res:Response,next:NextFunction)=>{
 
     let token = req.headers.authorization;
-    
-    
+
     if(!token){
         return res.status(statusCode.FORBIDDEN).json({message:"Unauthorized"});
     }

@@ -10,7 +10,6 @@ interface CustomRequest extends Request {
     userId?: number|undefined; // Add userId property as optional
   }
   
-
 interface Blog{
     id:Number
     title:String,
@@ -25,7 +24,6 @@ blogRouter.post('/create',middleware,async(req:CustomRequest,res:Response)=>{
             // Handle the case where userId is undefined
             return res.status(statusCode.UNAUTHORIZED).json({ error: 'Unauthorized' });
           }
-
         const newBlog:Blog=await prisma.blog.create({
             data: {
                 title: req.body.title,
@@ -85,7 +83,15 @@ blogRouter.get('/getblog',middleware,async(req:CustomRequest,res:Response)=>{
 
     try{
         const blog = await prisma.blog.findUnique({
-            where:{id:blogId}
+            where:{id:blogId},
+            include: {
+                author: {
+                  select: {
+                      name: true,
+                      email: true,
+                    },
+                }, // Include the associated user information
+              },
         })
 
        res.json({blog:blog})
